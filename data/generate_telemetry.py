@@ -9,10 +9,14 @@ Persuadables, Sure Things, Sleeping Dogs, and Lost Causes.
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import logging
 import uuid
 from pathlib import Path
+
+with contextlib.suppress(ImportError):
+    import lightgbm  # noqa: F401
 
 import numpy as np
 import pandas as pd
