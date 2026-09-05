@@ -1,0 +1,122 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SaaSTelemetryRecord",
+  "description": "Validation schema for SaaS Customer Retention and Causal Telemetry records.",
+  "type": "object",
+  "required": [
+    "user_id",
+    "account_age_months",
+    "monthly_recurring_revenue",
+    "plan_tier",
+    "active_users_ratio",
+    "login_frequency_trend_30d",
+    "feature_usage_diversity",
+    "support_tickets_90d",
+    "unresolved_p1_tickets",
+    "csat_score",
+    "payment_failure_events",
+    "contract_type",
+    "treatment_assigned",
+    "retained"
+  ],
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Unique UUID customer identifier"
+    },
+    "account_age_months": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 120,
+      "description": "Tenure of the customer on the platform in months"
+    },
+    "monthly_recurring_revenue": {
+      "type": "number",
+      "minimum": 10.0,
+      "maximum": 50000.0,
+      "description": "Monthly subscription revenue (MRR) in USD"
+    },
+    "plan_tier": {
+      "type": "string",
+      "enum": ["Starter", "Professional", "Enterprise"],
+      "description": "SaaS pricing tier"
+    },
+    "active_users_ratio": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Ratio of licensed seats actively utilizing the product"
+    },
+    "login_frequency_trend_30d": {
+      "type": "number",
+      "minimum": -2.0,
+      "maximum": 5.0,
+      "description": "Relative percentage velocity in logins over last 30d compared to prior 60d"
+    },
+    "feature_usage_diversity": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20,
+      "description": "Count of distinct product features used in last 90 days"
+    },
+    "support_tickets_90d": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 50,
+      "description": "Total support tickets created in trailing 90 days"
+    },
+    "unresolved_p1_tickets": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10,
+      "description": "Number of Sev-1 critical support tickets currently unresolved"
+    },
+    "csat_score": {
+      "type": "number",
+      "minimum": 1.0,
+      "maximum": 5.0,
+      "description": "Customer satisfaction rating on 1-5 scale"
+    },
+    "payment_failure_events": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10,
+      "description": "Failed dunning/billing attempts in last 90 days"
+    },
+    "contract_type": {
+      "type": "string",
+      "enum": ["Monthly", "Annual"],
+      "description": "Customer billing commitment type"
+    },
+    "treatment_assigned": {
+      "type": "integer",
+      "enum": [0, 1],
+      "description": "Binary treatment indicator: 1 if received proactive retention intervention, 0 if control"
+    },
+    "retained": {
+      "type": "integer",
+      "enum": [0, 1],
+      "description": "Factual observable outcome: 1 if retained, 0 if churned"
+    },
+    "y_control_latent": {
+      "type": "integer",
+      "enum": [0, 1],
+      "description": "Latent counterfactual outcome under control Y(0)"
+    },
+    "y_treated_latent": {
+      "type": "integer",
+      "enum": [0, 1],
+      "description": "Latent counterfactual outcome under treatment Y(1)"
+    },
+    "tau_true": {
+      "type": "number",
+      "description": "True latent Individual Treatment Effect: Y(1) - Y(0)"
+    },
+    "archetype": {
+      "type": "string",
+      "enum": ["Persuadable", "Sleeping Dog", "Sure Thing", "Lost Cause"],
+      "description": "Latent customer behavioral cohort archetype"
+    }
+  },
+  "additionalProperties": true
+}
