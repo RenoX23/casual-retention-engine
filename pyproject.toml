@@ -7,7 +7,7 @@ name = "causal-retention-engine"
 version = "0.1.0"
 description = "Causal ML Uplift Modeling & Customer Revenue Recovery Engine"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [
     { name = "RenoX23", email = "whitewolf9181@gmail.com" }
@@ -33,7 +33,7 @@ dev = [
 
 [tool.ruff]
 line-length = 100
-target-version = "py311"
+target-version = "py310"
 
 [tool.ruff.lint]
 select = [
