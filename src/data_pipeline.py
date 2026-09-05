@@ -38,6 +38,8 @@ class CausalSplitDataset:
     y_test: np.ndarray
     latent_train: pd.DataFrame | None = None
     latent_test: pd.DataFrame | None = None
+    mrr_train: np.ndarray | None = None
+    mrr_test: np.ndarray | None = None
     feature_names: list[str] | None = None
 
 
@@ -218,6 +220,10 @@ def split_causal_dataset(
     latent_train = train_df[latent_cols].copy().reset_index(drop=True) if latent_cols else None
     latent_test = test_df[latent_cols].copy().reset_index(drop=True) if latent_cols else None
 
+    mrr_col = "monthly_recurring_revenue"
+    mrr_train = train_df[mrr_col].to_numpy(dtype=float) if mrr_col in train_df.columns else None
+    mrr_test = test_df[mrr_col].to_numpy(dtype=float) if mrr_col in test_df.columns else None
+
     logger.info(
         "Causal split complete: Train shape=%s, Test shape=%s | Features=%d",
         X_train.shape,
@@ -234,5 +240,7 @@ def split_causal_dataset(
         y_test=y_test,
         latent_train=latent_train,
         latent_test=latent_test,
+        mrr_train=mrr_train,
+        mrr_test=mrr_test,
         feature_names=pipeline.feature_names_,
     )
