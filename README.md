@@ -9,6 +9,10 @@
 > **Portfolio-Grade Causal Machine Learning Engine for B2B SaaS Revenue Retention.**  
 > Replaces flawed churn propensity scoring with causal Individual Treatment Effect ($\text{ITE}$) estimation, directly targeting **Persuadables** while mathematically suppressing outreach to revenue-destroying **Sleeping Dogs** and budget-wasting **Sure Things**.
 
+<p align="center">
+  <img src="screenshots/01_financial_roi_kpis.png" alt="Causal-Retain Executive Dashboard Overview" width="100%">
+</p>
+
 ---
 
 ## Table of Contents
@@ -241,17 +245,72 @@ Under realistic enterprise SaaS unit economics ($C_{\text{intervention}} = \$50$
 
 The application is deployed as a production-grade Streamlit application with reactive `@st.cache_resource` caching, providing sub-second scenario modeling across three executive tabs:
 
-1. **Executive Financial ROI Simulator**:
-   - Interactive sliders for intervention touchpoint cost ($C$), campaign budget ($B$), and ARR multipliers.
-   - P&L Trajectory curves plotting Cumulative Net Profit vs Accounts Targeted, with dynamic callout of $k^*$.
-   - KPI comparison cards quantifying Net Advantage, Avoided Spend, and Protected Revenue.
-2. **Model Performance Leaderboard**:
-   - Interactive Plotly cumulative Qini curves and Cumulative Gains comparing S-Learner, T-Learner, X-Learner, Propensity Baseline, and Theoretical Oracle.
-   - 10-decile uplift bar charts highlighting the empirical negative uplift zone in Decile 10.
-3. **TreeSHAP Uplift Explainability**:
-   - Global differential feature importance rankings.
-   - Archetype comparisons (Persuadables vs Sleeping Dogs).
-   - Localized customer account waterfall drill-downs.
+### Tab 1: Executive Financial ROI Simulator
+Translates causal Individual Treatment Effect ($\text{ITE}$) estimates into actionable CFO-level P&L projections, dynamically solving for the optimal cutoff $k^*$ where marginal revenue recovery equals outreach cost.
+
+#### 1. Financial Controls & Portfolio Impact KPIs
+Adjust unit economics in real time (Intervention Cost per Touchpoint, Total Campaign Budget, Revenue Multiplier) and immediately monitor expected Net Profit Delta, Gross ARR Saved, and counts of protected Sleeping Dogs.
+<p align="center">
+  <img src="screenshots/01_financial_roi_kpis.png" alt="Executive Financial ROI Simulator KPIs" width="100%">
+</p>
+
+#### 2. Cumulative P&L Trajectory & Marginal Inflection Point ($k^*$)
+Plots the cumulative profit curve across targeted population percentiles, identifying the exact inflection cutoff $k^*$ beyond which targeting additional accounts erodes campaign profitability.
+<p align="center">
+  <img src="screenshots/02_profit_inflection_curve.png" alt="Profit Inflection Curve and Marginal Optimization" width="100%">
+</p>
+
+#### 3. Head-to-Head Strategy Comparison: Causal AI vs. Churn Propensity
+A granular executive scorecard comparing Causal Uplift targeting directly against traditional Churn Propensity scoring at identical budget allocations. Quantifies avoided marketing waste on *Sure Things* and preserved ARR on *Sleeping Dogs*.
+<p align="center">
+  <img src="screenshots/03_head_to_head_comparison.png" alt="Head-to-Head Strategy Comparison Table" width="100%">
+</p>
+
+---
+
+### Tab 2: Causal Model Performance & Qini Benchmarks
+Provides empirical validation on held-out A/B trial data, demonstrating that causal meta-learners successfully rank accounts by true incremental responsiveness rather than raw baseline churn risk.
+
+#### 4. Model Benchmark Leaderboard
+Summary benchmark displaying Normalized Qini Score ($Q_{\text{norm}}$), Area Under Uplift Curve (AUUC), and incremental lift over the random baseline across all meta-learners.
+<p align="center">
+  <img src="screenshots/04_model_benchmark_leaderboard.png" alt="Model Benchmark Leaderboard" width="100%">
+</p>
+
+#### 5. Cumulative Qini Curve Benchmarks
+Plots cumulative incremental responders $Q(u) = Y_t(u) - Y_c(u) \cdot (N_t / N_c)$ across targeted population fractions, comparing T-Learner, S-Learner, X-Learner, and Propensity Baseline against the theoretical optimal ceiling.
+<p align="center">
+  <img src="screenshots/05_cumulative_qini_benchmark.png" alt="Cumulative Qini Curve Benchmark" width="100%">
+</p>
+
+#### 6. 10-Decile Uplift Monotonicity & Sleeping Dogs Isolation
+Empirical uplift distribution across deciles with automated Spearman rank monotonicity scoring ($r_s = 0.964, p < 0.01$) and automated isolation of negative uplift in bottom deciles (Deciles 8–10).
+<p align="center">
+  <img src="screenshots/06_decile_uplift_monotonicity.png" alt="10-Decile Uplift Monotonicity and Sleeping Dogs Detection" width="100%">
+</p>
+
+---
+
+### Tab 3: TreeSHAP Differential Uplift Explainability
+Leverages TreeSHAP differential attribution ($\phi_i^{\text{uplift}} = \phi_i(\mu_1) - \phi_i(\mu_0)$) to explain *why* specific customer behavioral signals drive treatment responsiveness or trigger cancellation.
+
+#### 7. Global Causal Uplift Drivers
+Ranks covariates by Mean Absolute Differential SHAP, identifying the dominant behavioral features governing treatment effect heterogeneity across the enterprise customer base.
+<p align="center">
+  <img src="screenshots/07_global_uplift_shap_drivers.png" alt="Global Causal Uplift Drivers" width="100%">
+</p>
+
+#### 8. Opposing Archetype Drivers: Persuadables vs. Sleeping Dogs
+Contrast analysis decomposing the directional feature attributions that create positive uplift in Persuadables versus negative uplift in Sleeping Dogs.
+<p align="center">
+  <img src="screenshots/08_archetype_differential_drivers.png" alt="Archetype Drivers: Persuadables vs Sleeping Dogs" width="100%">
+</p>
+
+#### 9. Individual Account Root-Cause Waterfall Drill-Down
+Local waterfall decomposition displaying base cohort uplift, positive push features, and negative drag features for any individual customer account.
+<p align="center">
+  <img src="screenshots/09_individual_waterfall_attribution.png" alt="Individual Account Root-Cause Waterfall Attribution" width="100%">
+</p>
 
 ---
 
@@ -273,6 +332,16 @@ casual-retention-engine/
 │   └── telemetry_schema.json      # Schema validation contract
 ├── notebooks/
 │   └── 01_exploratory_uplift.ipynb # End-to-end reproducible walkthrough
+├── screenshots/                   # Production Streamlit UI screenshots & artifacts
+│   ├── 01_financial_roi_kpis.png
+│   ├── 02_profit_inflection_curve.png
+│   ├── 03_head_to_head_comparison.png
+│   ├── 04_model_benchmark_leaderboard.png
+│   ├── 05_cumulative_qini_benchmark.png
+│   ├── 06_decile_uplift_monotonicity.png
+│   ├── 07_global_uplift_shap_drivers.png
+│   ├── 08_archetype_differential_drivers.png
+│   └── 09_individual_waterfall_attribution.png
 ├── src/
 │   ├── data_pipeline.py           # Leakage-free preprocessing & (W, Y) split
 │   ├── evaluation/
@@ -333,7 +402,7 @@ python data/generate_telemetry.py --n-samples 50000 --seed 42
 # Execute linting checks
 ruff check .
 
-# Execute 48 unit & integration tests with coverage report
+# Execute 49 unit & integration tests with coverage report
 pytest --cov=src --cov-report=term tests/
 ```
 
