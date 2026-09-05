@@ -52,6 +52,7 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "*.ipynb" = ["E402", "F401", "I001"]
+"app/streamlit_app.py" = ["E402"]
 
 [tool.pytest.ini_options]
 minversion = "7.0"

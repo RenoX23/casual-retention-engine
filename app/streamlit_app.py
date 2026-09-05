@@ -10,7 +10,14 @@ from __future__ import annotations
 
 import contextlib
 import logging
+import sys
+from pathlib import Path
 from typing import Any
+
+# Ensure repository root is on sys.path regardless of execution context
+repo_root = str(Path(__file__).resolve().parent.parent)
+if repo_root not in sys.path:
+    sys.path.insert(0, repo_root)
 
 with contextlib.suppress(ImportError):
     import lightgbm  # noqa: F401
@@ -19,9 +26,14 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-from app.components.explainability_view import render_explainability_view
-from app.components.model_performance import render_model_performance
-from app.components.roi_simulator import render_roi_simulator
+try:
+    from app.components.explainability_view import render_explainability_view
+    from app.components.model_performance import render_model_performance
+    from app.components.roi_simulator import render_roi_simulator
+except ModuleNotFoundError:
+    from components.explainability_view import render_explainability_view
+    from components.model_performance import render_model_performance
+    from components.roi_simulator import render_roi_simulator
 from data.generate_telemetry import generate_synthetic_telemetry
 from src.data_pipeline import CausalSplitDataset, split_causal_dataset
 from src.explainability.uplift_shap import UpliftExplanation, UpliftTreeExplainer

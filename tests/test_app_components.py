@@ -80,3 +80,16 @@ def test_explainability_view_renders(app_test_data: dict) -> None:
         explanation=app_test_data["explanation"],
         archetypes=archetypes,
     )
+
+
+def test_streamlit_app_path_resolution() -> None:
+    """Verify streamlit_app.py runs cleanly and resolves repo_root regardless of execution context."""
+    import runpy
+    from pathlib import Path
+
+    script_path = Path(__file__).resolve().parent.parent / "app" / "streamlit_app.py"
+    # Execute the script in a isolated module namespace without __main__ trigger
+    res = runpy.run_path(str(script_path), run_name="__test__")
+    assert "render_roi_simulator" in res
+    assert "render_model_performance" in res
+    assert "render_explainability_view" in res
