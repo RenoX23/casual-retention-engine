@@ -1,0 +1,21 @@
+# Core Causal ML and Modeling
+lightgbm>=4.3.0
+scikit-learn>=1.3.0
+scipy>=1.10.0
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Explainability & Attribution
+shap>=0.44.0
+
+# Web Application & Visualization
+streamlit>=1.30.0
+plotly>=5.17.0
+
+# Data Validation & Serialization
+pydantic>=2.4.0
+
+# Developer Tooling, Quality & Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+ruff>=0.2.0
