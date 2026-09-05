@@ -6,6 +6,12 @@ encoding, and leakage-free stratified splitting across joint (W, Y) distribution
 
 from __future__ import annotations
 
+import contextlib
+
+# Initialize LightGBM OpenMP runtime before sklearn/scipy on Windows
+with contextlib.suppress(ImportError):
+    import lightgbm  # noqa: F401
+
 import logging
 from dataclasses import dataclass
 from pathlib import Path
